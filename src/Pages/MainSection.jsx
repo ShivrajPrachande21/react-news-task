@@ -1,29 +1,50 @@
-import React, { useState } from "react";
-import Card from "../Component/Card";
+import React, { useState, lazy, Suspense } from "react";
+const Card = lazy(() => import("../Component/Card"));
 import { newsData } from "../Constant/ConstantData";
 import { useNavigate } from "react-router-dom";
+import { Skeleton } from "@mui/material";
 const MainSection = () => {
   const [data, setNewsData] = useState(newsData);
 
-  const naviagte=useNavigate()
+  const naviagte = useNavigate();
   const handleFavorite = (id) => {
     const updatedData = data.map((item, index) =>
-      index+1 === id ? { ...item, isFavorite: !item.isFavorite } : item
+      item.id === id ? { ...item, isFavorite: !item.isFavorite } : item
     );
-    setNewsData(updatedData)
+    setNewsData(updatedData);
     console.log(updatedData);
   };
 
-  const soretedNews=data.sort((a,b) =>b.isFavorite-a.isFavorite)
-  const handleSearchNewsData=(id)=>{
-    
-    naviagte(`/show-news-data/${id}`)
-  }
+  const soretedNews = data.sort((a, b) => b.isFavorite - a.isFavorite);
+  const handleSearchNewsData = (id) => {
+    naviagte(`/show-news-data/${id}`);
+  };
 
   return (
-    <div className="h-[100vh] bg-[red] w-[100%] grid grid-cols-5 gap-6 overflow-scroll p-4   ">
+    <div className=" bg-[red]  grid grid-cols-1  md:grid-cols-5 gap-6 overflow-x-hidden overflow-scroll p-4   mainSection">
       {soretedNews.map((item, index) => (
-        <Card key={index} cardData={item} handleFavorite={handleFavorite} handleSendParams={handleSearchNewsData}/>
+        <Suspense
+          fallback={
+            <>
+              {" "}
+              <Skeleton
+                
+                variant="rectangular"
+                width={210}
+                height={118}
+              />
+             
+             
+            </>
+          }
+        >
+          <Card
+            key={index}
+            cardData={item}
+            handleFavorite={handleFavorite}
+            handleSendParams={handleSearchNewsData}
+          />
+        </Suspense>
       ))}
     </div>
   );

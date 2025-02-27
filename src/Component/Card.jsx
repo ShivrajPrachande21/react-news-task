@@ -1,12 +1,18 @@
 import moment from "moment/moment";
-import React from "react";
+import React, { useState } from "react";
 
-const Card = ({ cardData,handleFavorite,handleSendParams }) => {
+const Card = ({ cardData, handleFavorite, handleSendParams }) => {
+  const [imgError, setImgError] = useState("");
+  const [showMoreText, setMoreText] = useState(false);
+  let altImg =
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQLdSrc0sz84GbjQAhcXiaDZBaqZPcMbCsxA&s";
 
-  
-  
+  function viewMore() {
+    setMoreText(prev=>!prev);
+  }
+
   return (
-    <div className="w-[250px] h-[340px] rounded-[8px] border-[gray] bg-[white] p-4 flex flex-col justify-between  ">
+    <div className="w-[100%] h-auto md:h-[340px] md:w-[250px]  rounded-[8px] border-[gray] bg-[white] p-4 flex flex-col justify-between  ">
       <div className="flex justify-between items-center">
         <h1 className="text-[gray] text-[12px]">
           {moment(cardData?.publishedAt).format("YYYY/MM/DD")}
@@ -14,7 +20,11 @@ const Card = ({ cardData,handleFavorite,handleSendParams }) => {
 
         <div>
           <label className="container">
-            <input type="checkbox" checked={cardData.isFavorite} onChange={()=>handleFavorite(cardData.id)}/>
+            <input
+              type="checkbox"
+              checked={cardData.isFavorite}
+              onChange={() => handleFavorite(cardData.id)}
+            />
             <svg
               height="24px"
               id="Layer_1"
@@ -35,7 +45,15 @@ const Card = ({ cardData,handleFavorite,handleSendParams }) => {
         </div>
       </div>
       <div>
-        <img src={cardData.urlToImage} alt="" />
+        <img
+          //  src={imgError === "Error" || !cardData.urlToImage
+          //   ? altImg
+          //   : cardData.urlToImage}
+          //   onError={() => setImgError("Error")}
+          src={cardData.urlToImage}
+          onError={(e) => (e.target.src = altImg)}
+          alt="News Thumbnail"
+        />
       </div>
       <div>
         <h1 className="text-[black] text-[12px]">
@@ -43,10 +61,21 @@ const Card = ({ cardData,handleFavorite,handleSendParams }) => {
         </h1>
       </div>
       <p className="text-[gray] text-[12px]">
-        {cardData?.description.substring(0, 100)}... <span className="text-black font-blod cursor-pointer">more</span> 
+        {showMoreText?cardData.description:cardData.description.substring(0,35)}...{" "}
+        <span
+          className="text-black font-blod cursor-pointer"
+          onClick={viewMore}
+        >
+          {showMoreText?'view less':"view more"}
+        </span>
       </p>
 
-      <button className="bg-[blue] w-[100%] text-zinc-100 p-1 " onClick={()=>handleSendParams(cardData.id)}>view more</button>
+      <button
+        className="bg-[blue] w-[100%] text-zinc-100 p-1 "
+        onClick={() => handleSendParams(cardData.id)}
+      >
+        view more
+      </button>
     </div>
   );
 };

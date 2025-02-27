@@ -3,7 +3,11 @@
   /* margin: 0;
   padding: 0; */
   box-sizing: border-box  ;
-  scrollbar-width: none;
+  scrollbar-width: thin;
+
+}
+body {
+  scroll-behavior: smooth;
 }
 /* From Uiverse.io by andrew-demchenk0 */ 
 .container input {
@@ -37,4 +41,12 @@
 
 .container input:checked ~ svg {
   fill: #ffeb49;
+}
+
+.header {
+  height: 8vh;
+}
+
+.mainSection {
+  height: calc(100vh - 16vh);
 }

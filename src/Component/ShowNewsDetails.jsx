@@ -16,12 +16,12 @@ const ShowNewsDetails = () => {
         </div>
         </div>
 
-        <div className='       p-4 text-[white]'>
+        <div className='  bg-[red]     p-4 text-zenic-100'>
             <h1 >Title :<span>{newData.title}</span></h1>
             <p>Description:<span>{newData.description}</span></p>
             <p>Author: <span>{newData.author}</span></p>
             <p>Date: {moment(newData.publishedAt).format("YYYY/MM/DD")}</p>
-            <p><a href={newData.url}>got  got news</a></p>
+            <p><a href={newData.url} target='_blank'>got  got news</a></p>
             <button className='bg-[gray] text-[white] mt-4 p-4' onClick={()=>navigate('/')} >Back to Home</button>
 
     </div>
